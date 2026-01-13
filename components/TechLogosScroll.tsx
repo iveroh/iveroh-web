@@ -1,4 +1,3 @@
-import React from "react"; 
 import {
   SiTypescript,
   SiGithub,
@@ -47,6 +46,17 @@ export default function TechLogosScroll() {
             animation: scroll 30s linear infinite;
             display: flex;
             width: fit-content;
+            will-change: transform;
+          }
+          .tech-logo {
+            flex-shrink: 0;
+            margin: 0 2rem;
+            display: flex;
+            align-items: center;
+          }
+          .tech-logo svg {
+            color: rgb(59, 130, 246);
+            opacity: 0.9;
           }
         `}</style>
 
@@ -54,11 +64,8 @@ export default function TechLogosScroll() {
           {duplicatedLogos.map((logo, index) => {
             const IconComponent = logo.icon;
             return (
-              <div key={index} className="flex shrink-0 mx-8">
-                <IconComponent
-                  size={64}
-                  className="text-blue-500 transition-transform duration-300 opacity-90"
-                />
+              <div key={index} className="tech-logo">
+                <IconComponent size={64} />
               </div>
             );
           })}

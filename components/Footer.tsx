@@ -5,15 +5,15 @@ import { Github, Linkedin, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="w-full py-10 bg-gray-100 dark:bg-gray-950 border-t">
+    <footer className="relative w-full py-10 bg-gray-100 dark:bg-gray-950 border-t z-100">
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
+        <p className="text-slate-600 text-sm text-center">
           © {new Date().getFullYear()}. All rights reserved.
         </p>
-        <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
+        <p className="text-slate-600 text-sm text-center">
           Application delivered by Iver O. Heggelund
         </p>
-        <div className="flex justify-center gap-6 text-gray-600 dark:text-gray-300">
+        <div className="flex justify-center gap-6 text-slate-600">
           <a
             href="https://github.com/iveroh"
             target="_blank"
