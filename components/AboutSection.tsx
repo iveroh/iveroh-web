@@ -117,7 +117,7 @@ export default function AboutSection() {
       title: "Living free",
       content:
         "However, my connection to nature and desire for freedom led me to make a life-changing decision. At 18, I chose to leave gymnastics behind and embrace a life of travel and exploration. I moved to a small town in western Norway, where I attended Sunnmøre Folkehøgskule, focusing on outdoor life and adventure. This period of my life was transformative, allowing me to connect deeply with nature and discover my true passions. Traveling to new places, meeting diverse people, and experiencing different cultures broadened my horizons and enriched my understanding of the world.",
-      imageUrl: "/creator-free.png",
+      imageUrl: "/creator-free.PNG",
       imageAlt: "Living free",
     },
     {
