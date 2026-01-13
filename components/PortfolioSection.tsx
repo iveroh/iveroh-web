@@ -130,7 +130,7 @@ export default function PortfolioSection() {
         "https://i.imgur.com/9eMMjcV.png",
       imageAlt: "My portfolio website",
       technologies: ["React", "Next.js", "Node.js", "Tailwind CSS", "Vercel"],
-      liveLink: "https://ryze-web.vercel.app/",
+      liveLink: "https://iveroh-web.vercel.app/",
       githubLink: "https://github.com/iveroh/iveroh-web",
     },
     {
@@ -141,7 +141,7 @@ export default function PortfolioSection() {
         "https://i.imgur.com/zT7KjdD.png",
       imageAlt: "E-Commerce Platform",
       technologies: ["React", "Next.js", "Node.js", "Tailwind CSS", "Vercel", "Amazon SES"],
-      liveLink: "https://iveroh-web.vercel.app/",
+      liveLink: "https://ryze-web.vercel.app/",
       githubLink: "https://github.com/iveroh/ryze-web",
     },
   ];

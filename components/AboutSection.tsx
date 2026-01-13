@@ -101,7 +101,7 @@ export default function AboutSection() {
       title: "The start of my journey",
       content:
         "My story begins in a small town in the Artic Circle of Norway, Tromsø, where I was born and raised. From a young age, I always enjoyed exploring the world around me and learning new things. With beautiful nature right outside our doorstep, I got a strong connection to the mountains. Hiking, skiing, and outdoor adventures were a big part of my childhood, shaping my love for exploration and resilience.",
-      imageUrl: "/creator_small.jpg",
+      imageUrl: "/creator-small.jpg",
       imageAlt: "My Story",
     },
     {
@@ -117,7 +117,7 @@ export default function AboutSection() {
       title: "Living free",
       content:
         "However, my connection to nature and desire for freedom led me to make a life-changing decision. At 18, I chose to leave gymnastics behind and embrace a life of travel and exploration. I moved to a small town in western Norway, where I attended Sunnmøre Folkehøgskule, focusing on outdoor life and adventure. This period of my life was transformative, allowing me to connect deeply with nature and discover my true passions. Traveling to new places, meeting diverse people, and experiencing different cultures broadened my horizons and enriched my understanding of the world.",
-      imageUrl: "/creator-free.PNG",
+      imageUrl: "/creator-free.png",
       imageAlt: "Living free",
     },
     {
