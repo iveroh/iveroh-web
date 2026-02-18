@@ -10,7 +10,8 @@ const geistSans = Geist({
 const zalandoSans = Zalando_Sans_Expanded({
   variable: "--font-zalando-sans-expanded",
   subsets: ["latin"],
-  display: "swap"
+  display: "swap",
+  fallback: ["system-ui", "arial"]
 });
 
 const geistMono = Geist_Mono({
