@@ -12,7 +12,15 @@ import {
   SiLinux,
 } from "react-icons/si";
 
-export default function TechLogosScroll() {
+type TechLogoScrollProps = {
+  color?: string;
+  opacity?: number;
+};
+
+export default function TechLogosScroll({
+  color = "#00a8e8",
+  opacity = 0.9,
+}: TechLogoScrollProps) {
   const logos = [
     { name: "TypeScript", icon: SiTypescript },
     { name: "GitHub", icon: SiGithub },
@@ -55,12 +63,20 @@ export default function TechLogosScroll() {
             align-items: center;
           }
           .tech-logo svg {
-            color: rgb(59, 130, 246);
-            opacity: 0.9;
+            color: var(--logo-color);
+            opacity: var(--logo-opacity);
           }
         `}</style>
 
-        <div className="animate-scroll items-center">
+        <div
+          className="animate-scroll items-center"
+          style={
+            {
+              ["--logo-color" as string]: color,
+              ["--logo-opacity" as string]: opacity,
+            } as React.CSSProperties
+          }
+        >
           {duplicatedLogos.map((logo, index) => {
             const IconComponent = logo.icon;
             return (

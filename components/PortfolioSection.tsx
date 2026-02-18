@@ -27,7 +27,7 @@ function ProjectCard({
 
   return (
     <div
-      className="relative bg-white rounded-lg overflow-hidden shadow-lg w-full cursor-pointer"
+      className="relative bg-white rounded-lg overflow-hidden shadow-lg w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => liveLink && window.open(liveLink, '_blank')}
@@ -60,7 +60,7 @@ function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="bg-yellow-500 text-white p-3 rounded-full"
+              className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full"
               style={{
                 opacity: isHovered ? 1 : 0,
                 transform: isHovered ? "scale(1)" : "scale(0)",
@@ -76,14 +76,14 @@ function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-700 text-white p-3 rounded-full"
+              className="bg-purple-700 hover:bg-purple-700/90 text-white p-3 rounded-full"
               style={{
                 opacity: isHovered ? 1 : 0,
                 transform: isHovered ? "scale(1)" : "scale(0)",
-                transition: "all 0.3s ease 0.1s",
+                transition: "all 0.3s ease",
               }}
             >
-              <Github size={24} />
+              <Github size={24} color="white" />
             </a>
           )}
         </div>
@@ -92,7 +92,7 @@ function ProjectCard({
       {/* Content Section */}
       <div className="p-6 flex flex-col h-64">
         <h3
-          className="text-xl font-bold mb-2"
+          className="text-xl font-bold mb-2 cursor-pointer"
           style={{
             color: isHovered ? "#0084ff" : "#1f2937",
             transition: "color 0.3s ease",

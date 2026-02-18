@@ -1,54 +1,37 @@
-"use client";
+"use client"
 
-import TechLogosScroll from "./TechLogosScroll";
-import Plasma from "./ui/Plasma";
-import Image from "next/image";
+import { useState } from "react";
+import CircularText from "./ui/CircularText";
 
 export default function HeroSection() {
-  return (
-    <section className="w-screen h-screen overflow-hidden border-b-2" id="home">
-      <div className="relative w-full h-full">
-        {/* Animation */}
-        <div className="absolute inset-0">
-          <Plasma
-            color="#00a8e8"
-            speed={0.6}
-            direction="pingpong"
-            scale={0.8}
-            opacity={0.5}
-            mouseInteractive={false}
-          />
-        </div>
-        {/* Content */}
-        <div className="relative flex flex-col items-center justify-between h-full py-8 md:py-12">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center flex-1">
-            {/* Left Side - Text */}
-            <div className="w-full md:w-1/2 text-center md:text-left md:pr-12 mb-6 md:mb-0">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-600 mb-4 cursor-default">
-                Welcome to my website!
-              </h1>
-              <h2 className="text-xl sm:text-2xl text-slate-600 cursor-default">
-                Discover my story and portfolio.
-              </h2>
-            </div>
 
-            {/* Right Side - Image */}
-            <div className="hidden md:flex w-1/2 justify-center mb-10">
-              <Image
-                src="/creator1.jpg"
-                alt="Iver Oprand Heggelund"
-                width={500}
-                height={500}
-                loading="lazy"
-                className="rounded-2xl shadow-lg"
-              />
-            </div>
-          </div>
-          
-          {/* Tech Logos */}
-          <div className="w-full max-w-6xl mx-auto px-4 pb-4 md:pb-8">
-            <TechLogosScroll />
-          </div>
+  // const [isLoading, setIsLoading] = useState(true);
+  const [showLoaderWrapper, setShowLoaderWrapper] = useState(false);
+  const [showContent, setShowContent] = useState(true);
+
+  // Loader wrapper
+  setTimeout(() => {
+    setShowLoaderWrapper(true);
+  }, 1500);
+
+  // HeroSection content
+  setTimeout(() => {
+    setShowContent(false);
+  }, 2500);
+
+  return (
+    <section className="w-screen h-screen overflow-hidden bg-blue-950" id="home">
+      {/*Loader wrapper */}
+      <div className={` bg-blue-950 w-screen h-screen transition-opacity duration-500 ease-out ${showLoaderWrapper ? 'opacity-0' : 'opacity-100'} absolute top-0 left-0 ${showLoaderWrapper ? 'collapse' : 'visible'} flex items-center justify-center ${showLoaderWrapper ? 'z-0' : 'z-50'}`}>
+        <CircularText text="IVER*HEGGELUND*" onHover="slowDown" spinDuration={10} />
+      </div>
+      <div className={`w-screen h-screen overflow-hidden bg-blue-800/20 ${showLoaderWrapper ? 'z-0' : 'z-50'} ${showContent ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+        <div className="absolute top-5 left-5 wrap-breakword">
+          <h1 className="text-white sm:text-6xl text-4xl font-zalando">IVER HEGGELUND</h1>
+          <h2 className="text-white sm:text-4xl text-2xl font-zalando">Software Engineer & UI/UX Designer</h2>
+        </div>
+        <div className="text-2xl font-bold text-white">
+
         </div>
       </div>
     </section>
