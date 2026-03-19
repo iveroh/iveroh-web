@@ -1,58 +1,78 @@
-# Iver Heggelund - Portfolio Website
+# Fullstack Template
 
-A modern, interactive portfolio website showcasing software development. Built with Next.js, featuring smooth animations, responsive design, and a clean, minimalist aesthetic.
+A monorepo template for fullstack web apps using Bun, React, and Elysia.
 
-## 🎯 About
+## Stack
 
-This is a personal portfolio website designed to showcase projects, skills, and articles. It features an engaging hero section, a portfolio showcase, about section, and an articles blog.
+- **Frontend** — React 19, Tailwind CSS v4, shadcn/ui
+- **Backend** — Elysia on Bun
+- **Database** — SQLite via `bun:sqlite`
+- **Shared** — `packages/common` for types and utilities
+- **Runtime** — Bun everywhere
 
-## 🛠 Technologies
+## Getting Started
 
-- **[Next.js](https://nextjs.org)** - React framework for production
-- **[TypeScript](https://www.typescriptlang.org/)** - Typed JavaScript
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[React](https://react.dev/)** - UI library
-- **Google Fonts** - Geist, Geist Mono, and Zalando Sans Expanded fonts
-
-## 📁 Project Structure
-
-```
-├── app/                      # Next.js app directory
-│   ├── layout.tsx           # Root layout with fonts
-│   ├── page.tsx             # Home page
-│   ├── globals.css          # Global styles & Tailwind config
-│   └── articles/            # Articles overview page
-├── components/              # Reusable React components
-│   ├── HeroSection.tsx      # Hero with animated circular text
-│   ├── AboutSection.tsx     # About section
-│   ├── PortfolioSection.tsx # Portfolio showcase
-│   ├── ArticleCard.tsx      # Article preview card
-│   ├── ArticleDetail.tsx    # Full article view
-│   ├── FeaturedArticle.tsx  # Featured article highlight
-│   ├── Footer.tsx           # Footer component
-│   ├── DesktopNavigation.tsx # Navigation bar
-│   ├── TechLogosScroll.tsx  # Scrolling tech logos
-│   └── ui/                  # UI components
-│       ├── AnimatedContent.tsx
-│       ├── CircularText.tsx # Spinning circular text animation
-│       ├── Plasma.tsx       # Plasma effect component
-│       └── SplitText.tsx    # Split text animation
-├── lib/                     # Utility functions
-│   ├── articlesData.ts      # Articles data
-│   └── utils.ts             # Helper functions
-└── public/                  # Static assets
+```bash
+bun install
+bun run dev
 ```
 
-## 📝 License
+- Frontend: http://localhost:3000
+- API: http://localhost:3001
 
-This project is personal work. All rights reserved.
+## After Creating a Repo from This Template
 
-## 🙋 Author
+Set up branch protection rules by running:
 
-**Iver Heggelund** - Software Engineer & Informatics Student
+```bash
+bash .github/setup-branch-protection.sh <owner> <repo>
+```
 
-## 📝 License
+Requires the [GitHub CLI](https://cli.github.com) and `gh auth login`.
 
-This project is personal work. All rights reserved.
+## Structure
 
-# ⚠️ Currently under refactoring
+```
+.
+├── apps/
+│   ├── web/        # React + Tailwind + shadcn
+│   └── api/        # Elysia + SQLite
+└── packages/
+    └── common/     # Shared types and utilities
+```
+
+## Scripts
+
+| Command                | Description                        |
+| ---------------------- | ---------------------------------- |
+| `bun run dev`          | Start all apps in parallel         |
+| `bun run build`        | Build all apps                     |
+| `bun run typecheck`    | Type-check all apps                |
+| `bun run lint`         | Lint everything                    |
+| `bun run lint:fix`     | Lint and auto-fix                  |
+| `bun run format`       | Format with Prettier               |
+| `bun run format:check` | Check formatting                   |
+
+## Shared Code
+
+Add shared types and utilities to `packages/common/src/index.ts`:
+
+```ts
+import { ok, err, type ApiResponse } from '@repo/common'
+```
+
+## Adding shadcn Components
+
+```bash
+cd apps/web
+bunx shadcn add <component>
+```
+
+## Environment Variables
+
+Copy `.env.local` and adjust as needed:
+
+```bash
+API_URL=http://localhost:3001
+DB_PATH=sqlite.db
+```
