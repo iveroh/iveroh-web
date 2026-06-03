@@ -5,6 +5,7 @@ export default {
   trailingComma: "all",
   printWidth: 100,
   tabWidth: 2,
+  endOfLine: "auto",
   plugins: ["prettier-plugin-tailwindcss"],
   // Point to web app's Tailwind CSS entry for class sorting
   tailwindStylesheet: "./apps/web/styles/globals.css",

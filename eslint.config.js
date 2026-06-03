@@ -1,6 +1,6 @@
 import js from "@eslint/js"
 import tseslint from "typescript-eslint"
-import prettier from "eslint-plugin-prettier"
+import prettier from "eslint-config-prettier"
 import react from "eslint-plugin-react"
 import reactHooks from "eslint-plugin-react-hooks"
 
@@ -24,10 +24,10 @@ export default [
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  prettier,
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
     plugins: {
-      prettier,
       react,
       "react-hooks": reactHooks,
     },
@@ -42,8 +42,6 @@ export default [
       },
     },
     rules: {
-      "prettier/prettier": ["error", { singleQuote: false }],
-      quotes: ["error", "double", { avoidEscape: true }],
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/no-explicit-any": "warn",
       "react/react-in-jsx-scope": "off",
