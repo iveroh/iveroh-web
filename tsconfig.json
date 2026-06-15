@@ -1,33 +1,26 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    // Environment
-    "target": "ESNext",
-    "lib": ["ESNext"],
+    "target": "es2023",
+    "useDefineForClassFields": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "esnext",
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
 
-    // Bun-native module settings
-    "module": "Preserve",
-    "moduleDetection": "force",
-    "moduleResolution": "Bundler",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
     "noEmit": true,
+    "isolatedModules": true,
 
-    // Interop
-    "esModuleInterop": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-
-    // Strictness
+    /* Linting */
     "strict": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-
-    // Disabled by default — enable per project if needed
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
-  }
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
 }

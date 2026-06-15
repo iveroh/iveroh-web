@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    // Bun server — no DOM types needed
-    "lib": ["ESNext"],
-    "types": ["bun-types"]
-  },
-  "exclude": ["dist", "node_modules"]
-}

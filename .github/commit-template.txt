@@ -1,6 +1,0 @@
-<type>[optional scope]: <title>
-
-[description]
-
-Issue:
-Co-authored-by:
