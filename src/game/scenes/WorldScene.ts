@@ -20,7 +20,7 @@ export class WorldScene extends Phaser.Scene {
   create() {
     const map = this.make.tilemap({ key: "portfolio-map" });
 
-    const grass = map.addTilesetImage("TX Tileset Grass", "tileset-grass");
+    const grass = map.addTilesetImage("A Tileset Grass", "tileset-grass");
     const wall = map.addTilesetImage("TX Tileset Wall", "tileset-wall");
     const props = map.addTilesetImage("TX Props", "tileset-props");
     const stoneGround = map.addTilesetImage(
@@ -28,14 +28,25 @@ export class WorldScene extends Phaser.Scene {
       "tileset-stone-ground"
     );
     const structures = map.addTilesetImage("TX Struct", "tileset-structures");
+    const water = map.addTilesetImage("A Farm building", "tileset-farm");
+    const buildings = map.addTilesetImage("Buildings", "tileset-buildings");
+    const objects = map.addTilesetImage("A Tileset_Water", "tileset-beaches");
+    const farmTerrain = map.addTilesetImage("A Farm terrain", "tileset-waterfall");
+    const rooms = map.addTilesetImage("Rooms", "tileset-rooms");
+    const interiors = map.addTilesetImage("Interiors_free_16x16", "tileset-interiors");
+    const boats = map.addTilesetImage("boats", "tileset-boats");
+    const bridges = map.addTilesetImage("Bridges", "tileset-bridges");
+    const trees = map.addTilesetImage("Trees", "tileset-trees");
+    const cityBuildings = map.addTilesetImage("City building", "tileset-city-buildings");
+    const props2 = map.addTilesetImage("Props", "tileset-props-2");
 
-    if (!grass || !wall || !props || !stoneGround || !structures) {
+    if (!grass || !wall || !props || !stoneGround || !structures || !water || !buildings || !objects || !farmTerrain || !rooms || !interiors || !boats || !bridges || !trees || !cityBuildings || !props2) {
       throw new Error(
         "One or more tilesets failed to load. Check your Tiled tileset names and Phaser preload keys."
       );
     }
 
-    const tilesets = [grass, wall, props, stoneGround, structures];
+    const tilesets = [grass, wall, props, stoneGround, structures, water, buildings, objects, farmTerrain, rooms, interiors, boats, bridges, trees, cityBuildings, props2];
 
     // Create all tile layers from Tiled automatically.
     map.layers.forEach((layerData) => {
@@ -48,8 +59,7 @@ export class WorldScene extends Phaser.Scene {
 
       // Layers that should visually cover the player.
       if (
-        layerData.name === "Object covering" ||
-        layerData.name === "Walls covering"
+        layerData.name.startsWith("Foreground/")
       ) {
         layer.setDepth(10);
       } else {
@@ -126,7 +136,7 @@ export class WorldScene extends Phaser.Scene {
 
   private createPlayer() {
 
-    this.player = this.physics.add.sprite(880, 835, "player", 0);
+    this.player = this.physics.add.sprite(1135, 2000, "player", 0);
 
     this.player.setDepth(5);
     this.player.setCollideWorldBounds(true);
@@ -200,7 +210,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private createCollisionFromObjectLayer(map: Phaser.Tilemaps.Tilemap) {
-    const objectLayer = map.getObjectLayer("Object Layer 1");
+    const objectLayer = map.getObjectLayer("Spawn area");
 
     if (!objectLayer) {
       console.warn("Could not find object layer: Object Layer 1");
@@ -226,7 +236,7 @@ export class WorldScene extends Phaser.Scene {
         object.height
       );
 
-      this.physics.add.existing(collider, false);
+      this.physics.add.existing(collider, true);
       collisionGroup.add(collider);
     });
 
