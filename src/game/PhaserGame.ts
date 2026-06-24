@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { BootScene } from "./scenes/BootScene";
 import { WorldScene } from "./scenes/WorldScene";
+import { CharacterHomeScene } from "./scenes/CharacterHomeScene";
 
 export function createGame(parent: string) {
   return new Phaser.Game({
@@ -18,7 +19,7 @@ export function createGame(parent: string) {
       }
     },
 
-    scene: [BootScene, WorldScene],
+    scene: [BootScene, WorldScene, CharacterHomeScene],
 
     scale: {
       mode: Phaser.Scale.RESIZE,

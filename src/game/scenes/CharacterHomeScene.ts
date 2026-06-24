@@ -1,6 +1,7 @@
+// CharacterHomeScene.ts
 import Phaser from "phaser";
 
-export class WorldScene extends Phaser.Scene {
+export class CharacterHomeScene extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 
@@ -11,56 +12,43 @@ export class WorldScene extends Phaser.Scene {
     D: Phaser.Input.Keyboard.Key;
   };
 
-  private lastDirection: "down" | "up" | "left" | "right" = "down";
+  private lastDirection: "down" | "up" | "left" | "right" = "up";
 
   constructor() {
-    super("WorldScene");
+    super("CharacterHomeScene");
   }
 
-  create(data: { playerX?: number; playerY?: number } = {}) {
-    const map = this.make.tilemap({ key: "map" });
+  create(data: { exitX?: number; exitY?: number } = {}) {
+    const map = this.make.tilemap({ key: "character-home-map" });
 
-    // Store spawn position for use in createPlayer
-    const spawnX = data.playerX ?? 1039;
-    const spawnY = data.playerY ?? 2000;
-
-    const boats = map.addTilesetImage("Boats", "tileset-boats");
-    const bridges = map.addTilesetImage("Bridges", "tileset-bridges");
+    const interiors1 = map.addTilesetImage("Interiors 1", "tileset-interiors-1");
+    const rooms = map.addTilesetImage("Rooms", "tileset-rooms");
     const buildings1 = map.addTilesetImage("Buildings 1", "tileset-buildings-1");
+    const props1 = map.addTilesetImage("Props 1", "tileset-props-1");
+    const water = map.addTilesetImage("Water", "tileset-water");
+    const buildings6 = map.addTilesetImage("Buildings 6", "tileset-buildings-6");
+    const terrain = map.addTilesetImage("Terrain", "tileset-terrain");
+    const bridges = map.addTilesetImage("Bridges", "tileset-bridges");
+    const boats = map.addTilesetImage("Boats", "tileset-boats");
+    const trees = map.addTilesetImage("Trees", "tileset-trees");
+    const cities = map.addTilesetImage("Cities", "tileset-cities");
     const buildings2 = map.addTilesetImage("Buildings 2", "tileset-buildings-2");
+    const props2 = map.addTilesetImage("Props 2", "tileset-props-2");
     const buildings3 = map.addTilesetImage("Buildings 3", "tileset-buildings-3");
+    const interiors2 = map.addTilesetImage("Interiors 2", "tileset-interiors-2");
     const buildings4 = map.addTilesetImage("Buildings 4", "tileset-buildings-4");
     const buildings5 = map.addTilesetImage("Buildings 5", "tileset-buildings-5");
-    const buildings6 = map.addTilesetImage("Buildings 6", "tileset-buildings-6");
     const buildings7 = map.addTilesetImage("Buildings 7", "tileset-buildings-7");
     const buildings8 = map.addTilesetImage("Buildings 8", "tileset-buildings-8");
-
-    const cities = map.addTilesetImage("Cities", "tileset-cities");
-    const interiors1 = map.addTilesetImage("Interiors 1", "tileset-interiors-1");
-    const interiors2 = map.addTilesetImage("Interiors 2", "tileset-interiors-2");
     const interiors3 = map.addTilesetImage("Interiors 3", "tileset-interiors-3");
     const forge = map.addTilesetImage("Forge", "tileset-forge");
-    const props1 = map.addTilesetImage("Props 1", "tileset-props-1");
-    const props2 = map.addTilesetImage("Props 2", "tileset-props-2");
-    const rooms = map.addTilesetImage("Rooms", "tileset-rooms");
     const smoke = map.addTilesetImage("Smoke", "tileset-smoke");
-    const trees = map.addTilesetImage("Trees", "tileset-trees");
-    const terrain = map.addTilesetImage("Terrain", "tileset-terrain");
-    const water = map.addTilesetImage("Water", "tileset-water");
-
-    // NPCs
     const npcSeller = map.addTilesetImage("NPC Seller", "npc-seller");
     const npcCitizen1 = map.addTilesetImage("NPC Citizen 1", "npc-citizen-1");
 
-    if (!boats || !bridges || !buildings1 || !buildings2 || !buildings3 || !buildings4 || !buildings5 || !buildings6 || !buildings7 || !buildings8 || !rooms || !interiors1 || !interiors2 || !interiors3 || !trees || !cities || !props1 || !props2 || !forge || !terrain || !water || !smoke || !npcSeller || !npcCitizen1) {
-      throw new Error(
-        "One or more tilesets failed to load. Check your Tiled tileset names and Phaser preload keys."
-      );
-    }
+    const tilesets = [interiors1, rooms, buildings1, props1, water, buildings6, terrain, bridges, boats, trees, cities, buildings2, props2, buildings3, interiors2, buildings4, buildings5, buildings7, buildings8, interiors3, forge, smoke, npcSeller, npcCitizen1].filter((t): t is Phaser.Tilemaps.Tileset => t !== null);
 
-    const tilesets = [boats, bridges, buildings1, buildings2, buildings3, buildings4, buildings5, buildings6, buildings7, buildings8, cities, interiors1, interiors2, interiors3, forge, props1, props2, rooms, trees, terrain, water, smoke, npcSeller, npcCitizen1].filter((t): t is Phaser.Tilemaps.Tileset => t !== null);
-
-    // Create all tile layers from Tiled automatically.
+    // Create all tile layers from Tiled
     map.layers.forEach((layerData) => {
       const layer = map.createLayer(layerData.name, tilesets, 0, 0);
 
@@ -69,10 +57,7 @@ export class WorldScene extends Phaser.Scene {
         return;
       }
 
-      // Layers that should visually cover the player.
-      if (
-        layerData.name.startsWith("Foreground/")
-      ) {
+      if (layerData.name.startsWith("Foreground")) {
         layer.setDepth(10);
       } else {
         layer.setDepth(0);
@@ -80,15 +65,11 @@ export class WorldScene extends Phaser.Scene {
     });
 
     this.createPlayerAnimations();
-    this.createPlayer(spawnX, spawnY);
-    this.createCollisionFromObjectLayer(map);
-    this.createHousesCollision(map);
-    this.createEntranceZones(map);
-
-    this.cameras.main.startFollow(this.player, true);
+    this.createPlayer(55, 210);
+    this.createObjectsCollision(map);
+    this.createExitFromObject(map, data?.exitX || 1135, data?.exitY || 2000);
     this.cameras.main.setZoom(2);
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
+    this.cameras.main.centerOn(map.widthInPixels / 2, map.heightInPixels / 2);
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
     this.cursors = this.input.keyboard!.createCursorKeys();
@@ -109,7 +90,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   update() {
-    const speed = 140;
+    const speed = 100;
 
     this.player.setVelocity(0);
 
@@ -150,13 +131,10 @@ export class WorldScene extends Phaser.Scene {
     }
   }
 
-  private createPlayer(spawnX: number = 1135, spawnY: number = 2000) {
-
+  private createPlayer(spawnX: number, spawnY: number) {
     this.player = this.physics.add.sprite(spawnX, spawnY, "player", 0);
-
     this.player.setDepth(5);
     this.player.setCollideWorldBounds(true);
-
     this.player.body?.setSize(16, 20);
     this.player.body?.setOffset(16, 20);
   }
@@ -207,7 +185,6 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private setIdleFrame() {
-
     if (this.lastDirection === "down") {
       this.player.setFrame(0);
     }
@@ -225,11 +202,11 @@ export class WorldScene extends Phaser.Scene {
     }
   }
 
-  private createCollisionFromObjectLayer(map: Phaser.Tilemaps.Tilemap) {
-    const objectLayer = map.getObjectLayer("Spawn area");
+  private createObjectsCollision(map: Phaser.Tilemaps.Tilemap) {
+    const objectLayer = map.getObjectLayer("Objects");
 
     if (!objectLayer) {
-      console.warn("Could not find object layer");
+      console.warn("Could not find object layer: Objects");
       return;
     }
 
@@ -259,17 +236,17 @@ export class WorldScene extends Phaser.Scene {
     this.physics.add.collider(this.player, collisionGroup);
   }
 
-  private createHousesCollision(map: Phaser.Tilemaps.Tilemap) {
-    const objectLayer = map.getObjectLayer("Houses");
+  private createExitFromObject(map: Phaser.Tilemaps.Tilemap, exitX: number, exitY: number) {
+    const exitLayer = map.getObjectLayer("Exit");
 
-    if (!objectLayer) {
-      console.warn("Could not find object layer: Houses");
+    if (!exitLayer) {
+      console.warn("Could not find exit object layer");
       return;
     }
 
-    const collisionGroup = this.physics.add.staticGroup();
+    let hasExited = false;
 
-    objectLayer.objects.forEach((object) => {
+    exitLayer.objects.forEach((object) => {
       if (
         object.x === undefined ||
         object.y === undefined ||
@@ -279,60 +256,24 @@ export class WorldScene extends Phaser.Scene {
         return;
       }
 
-      const collider = this.add.zone(
+      const exitZone = this.add.zone(
         object.x + object.width / 2,
         object.y + object.height / 2,
         object.width,
         object.height
       );
 
-      this.physics.add.existing(collider, true);
-      collisionGroup.add(collider);
-    });
+      this.physics.add.existing(exitZone, true);
 
-    this.physics.add.collider(this.player, collisionGroup);
-  }
-
-  private createEntranceZones(map: Phaser.Tilemaps.Tilemap) {
-    const entranceLayer = map.getObjectLayer("Character home");
-
-    if (!entranceLayer) {
-      console.warn("Could not find entrance layer: Character home");
-      return;
-    }
-
-    const entranceGroup = this.physics.add.staticGroup();
-
-    entranceLayer.objects.forEach((object) => {
-      if (
-        object.x === undefined ||
-        object.y === undefined ||
-        object.width === undefined ||
-        object.height === undefined
-      ) {
-        return;
-      }
-
-      const entrance = this.add.zone(
-        object.x + object.width / 2,
-        object.y + object.height / 2,
-        object.width,
-        object.height
-      );
-
-      this.physics.add.existing(entrance, true);
-      entranceGroup.add(entrance);
-
-      this.physics.add.overlap(this.player, entrance, () => {
-        const playerX = this.player.x;
-        const playerY = this.player.y;
-        this.cameras.main.fadeOut(500, 0, 0, 0);
-        this.time.delayedCall(500, () => {
-          this.scene.start("CharacterHomeScene", { exitX: playerX, exitY: playerY });
-        });
+      this.physics.add.overlap(this.player, exitZone, () => {
+        if (!hasExited) {
+          hasExited = true;
+          this.cameras.main.fadeOut(500, 0, 0, 0);
+          this.time.delayedCall(500, () => {
+            this.scene.start("WorldScene", { playerX: exitX, playerY: exitY });
+          });
+        }
       }, undefined, this);
     });
-
-    this.physics.add.collider(this.player, entranceGroup);
   }
 }
