@@ -1,23 +1,25 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Bogart";
+  src: url("/fonts/Bogart-Regular-trial.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-bogart: "Bogart", sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
 body {
-  background: #1a1a1a;
-  font-family: Arial, sans-serif;
-}
-
-#app {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #000;
-}
-
-#game-container {
-  display: flex;
-  justify-content: center;
+  margin: 0;
+  background: #111;
+  font-family: sans-serif;
 }
