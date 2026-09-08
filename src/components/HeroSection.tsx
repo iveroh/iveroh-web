@@ -1,28 +1,55 @@
+import { useRef, useState } from "react";
+import CommitActivity from "./CommitActivity";
+
+const BACKGROUND_VIDEOS = ["/video/mountains-1.mp4"];
+
 export default function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoIndex, setVideoIndex] = useState(0);
+
+  const handleVideoEnded = () => {
+    const nextIndex = (videoIndex + 1) % BACKGROUND_VIDEOS.length;
+    setVideoIndex(nextIndex);
+    videoRef.current?.load();
+    videoRef.current?.play();
+  };
+
   return (
-    <section
-      className="relative flex min-h-screen items-start overflow-hidden px-6 pt-20 text-white sm:px-12 sm:pt-24 lg:px-16 lg:pt-24"
-      aria-label="Iver Heggelund"
-    >
-      <img
-        className="absolute inset-0 h-full w-full object-cover object-center"
-        src="/photo/action-photo-7.JPG"
-        alt=""
-        aria-hidden="true"
+    <section className="h-screen w-full overflow-hidden text-white -z-2 flex flex-col justify-center items-center">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 -z-1 h-full w-full object-cover grayscale opacity-20"
+        src={BACKGROUND_VIDEOS[videoIndex]}
+        autoPlay
+        muted
+        playsInline
+        onEnded={handleVideoEnded}
       />
-      <div className="relative z-10 max-w-xl">
-        <h1 className="font-bogart max-w-lg text-6xl leading-[0.92] tracking-tight sm:text-8xl">
-          Iver
-          <br />
-          Heggelund
-        </h1>
-        <p className="mt-7 text-lg sm:text-xl">Software Engineer</p>
-        <a
-          className="mt-20 inline-flex h-11 w-36 items-center justify-center border border-white px-4 text-xs font-semibold uppercase tracking-[0.12em] transition-colors hover:bg-white hover:text-slate-900"
-          href="mailto:iveroprandheggelund@gmail.com"
-        >
-          Email me
-        </a>
+      <div className="h-24 inset-12 absolute flex flex-row justify-between items-center">
+        <a href="" className="font-kudryashev-headline text-4xl transition-colors duration-300 hover:text-brand-accent">PROJECTS</a>
+        <a href="" className="font-kudryashev-headline text-4xl transition-colors duration-300 hover:text-brand-accent">ABOUT ME</a>
+        <a href="" className="font-kudryashev-headline text-4xl transition-colors duration-300 hover:text-brand-accent">FPL TEAM</a>
+        <a href="" className="font-kudryashev-headline text-4xl transition-colors duration-300 hover:text-brand-accent">VIDEOS</a>
+
+      </div>
+      <div className="flex flex-col justify-center items-center">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-8">
+          <div className="flex justify-left">
+            <h2 className="font-kudryashev-headline text-2xl">
+              -
+            </h2>
+          </div>
+          <img src="/photo/profile-photo.jpeg" alt="Iver Oprand Heggelund" className="flex justify-center items-center rounded-full w-100 h-100 border-4 border-brand-dark"/>
+          <div className="flex justify-start">
+            <div>
+              <p className="text-lg font-kudryashev-headline text-center">My GitHub Activity for {new Date().getFullYear()}</p>
+              <CommitActivity username="iveroh" />
+            </div>
+          </div>
+        </div>
+        <h1 className="font-kudryashev-headline text-4xl mt-4">Iver Oprand Heggelund</h1>
+        <h3 className="font-kudryashev-headline text-2xl">Informatics Master's student.</h3>
+        <h4 className="font-kudryashev-headline text-xl">Specialization in interaction design, gaming, and learning technology.</h4>
       </div>
     </section>
   );

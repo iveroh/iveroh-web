@@ -8,8 +8,22 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "KudryashevHeadline";
+  src: url("/fonts/KudryashevHeadline.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-bogart: "Bogart", sans-serif;
+  --font-kudryashev-headline: "KudryashevHeadline", sans-serif;
+
+  --color-brand-dark: #224248;
+  --color-brand: #325e6a;
+  --color-brand-light: #44a1a4;
+  --color-brand-accent: #ff9a00;
 }
 
 html,
@@ -20,6 +34,6 @@ body,
 
 body {
   margin: 0;
-  background: #111;
+  background: #000000;
   font-family: sans-serif;
 }
