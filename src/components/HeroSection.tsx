@@ -25,10 +25,10 @@ export default function HeroSection() {
         preload="auto"
         onEnded={handleVideoEnded}
       />
-      <h1 className="font-kudryashev-headline text-4xl mb-4">Iver Oprand Heggelund</h1>
+      <h1 className="font-kudryashev-headline text-4xl mb-4 text-center">Iver Oprand Heggelund</h1>
       <div className="flex flex-col justify-center items-center">
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-8">
-          <div className="flex justify-center items-center">
+          <div className="justify-center items-center hidden md:flex">
             <div>
             <h2 className="text-xl font-kudryashev-headline text-center">
               My Top Github Repositories
@@ -36,10 +36,10 @@ export default function HeroSection() {
             <RepositoryDisplay />
             </div>
           </div>
-          <a href="https://github.com/iveroh" className="transition-300 transition-transform hover:scale-101">
+          <a href="https://github.com/iveroh" className="transition-300 transition-transform hover:scale-101 hidden md:inline">
           <img src="/photo/profile-photo.jpeg" alt="Iver Oprand Heggelund" className="flex justify-center items-center rounded-full w-100 h-100 border-4 border-brand-accent"/>
           </a>
-          <div className="flex justify-start">
+          <div className="justify-start hidden md:flex">
             <div>
               <p className="text-lg font-kudryashev-headline text-center">My GitHub Activity for {new Date().getFullYear()}</p>
               <CommitActivity username="iveroh" />
@@ -48,8 +48,8 @@ export default function HeroSection() {
         </div>
       </div>
       <div className="flex flex-col justify-center items-center mt-4">
-      <h3 className="font-kudryashev-headline text-2xl">Informatics Master's student.</h3>
-      <h4 className="font-kudryashev-headline text-xl">Specialization in interaction design, gaming, and learning technology.</h4>
+      <h3 className="font-kudryashev-headline text-2xl text-center">Informatics Master's student.</h3>
+      <h4 className="font-kudryashev-headline text-xl text-center">Specialization in interaction design, gaming, and learning technology.</h4>
       </div>
     </section>
   );
