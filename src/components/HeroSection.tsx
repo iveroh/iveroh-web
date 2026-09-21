@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import CommitActivity from "./CommitActivity";
-import NavigationBar from "./NavigationBar";
+import RepositoryDisplay from "./RepositoryDisplay";
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -14,10 +14,10 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="h-screen w-full overflow-hidden text-white -z-2 flex flex-col justify-center items-center">
+    <section className="sticky top-0 h-screen w-full overflow-hidden text-white flex flex-col justify-center items-center z-0">
       <video
         ref={videoRef}
-        className="absolute inset-0 -z-1 h-full w-full object-cover grayscale opacity-40"
+        className="absolute inset-0 -z-10 h-full w-full object-cover grayscale opacity-40"
         src="/video/water-1.mp4"
         autoPlay
         muted
@@ -25,16 +25,20 @@ export default function HeroSection() {
         preload="auto"
         onEnded={handleVideoEnded}
       />
-      <NavigationBar />
       <h1 className="font-kudryashev-headline text-4xl mb-4">Iver Oprand Heggelund</h1>
       <div className="flex flex-col justify-center items-center">
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-8">
-          <div className="flex justify-left">
-            <h2 className="font-kudryashev-headline text-2xl">
-              -
+          <div className="flex justify-center items-center">
+            <div>
+            <h2 className="text-xl font-kudryashev-headline text-center">
+              My Top Github Repositories
             </h2>
+            <RepositoryDisplay />
+            </div>
           </div>
-          <img src="/photo/profile-photo.jpeg" alt="Iver Oprand Heggelund" className="flex justify-center items-center rounded-full w-100 h-100 border-4 border-brand-dark"/>
+          <a href="https://github.com/iveroh" className="transition-300 transition-transform hover:scale-101">
+          <img src="/photo/profile-photo.jpeg" alt="Iver Oprand Heggelund" className="flex justify-center items-center rounded-full w-100 h-100 border-4 border-brand-accent"/>
+          </a>
           <div className="flex justify-start">
             <div>
               <p className="text-lg font-kudryashev-headline text-center">My GitHub Activity for {new Date().getFullYear()}</p>
