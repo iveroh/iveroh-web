@@ -1,27 +1,73 @@
-# Portfolio Game
+# iveroh-web
 
-> **Status:** 🚧 Under Construction (Active Refactoring)
+Personal portfolio website for Iver Oprand Heggelund, built with React, TypeScript, and Vite.
 
-An interactive tilemap-based portfolio game built with Phaser 3 and React. Navigate a top-down environment to explore projects, skills, and experience.
+## Overview
 
-## Plan
+A single-page site with a video hero, an about section, and a projects section that pulls live repository data (stars, language, description) straight from the GitHub REST API.
 
-- **Core Gameplay:** Explore a top-down tilemap world with interactive NPCs and objects
-- **Portfolio Integration:** Trigger mini-games and project showcases by interacting with the environment
-- **Polish:** Animation, collision detection, and smooth camera follow
-- **Future:** Dialog system, inventory mechanics, and project details UI
+[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff)](#)
+[![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)](#)
 
 ## Tech Stack
 
-- **Phaser 3** - Game engine (v4.1.0)
-- **React 18** - UI framework
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and dev server
-- **Tiled Map Editor** - Level design with professional tileset support
+- **[React 19](https://react.dev/)** + **[TypeScript](https://www.typescriptlang.org/)**
+- **[Vite](https://vitejs.dev/)** - dev server and build tool
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - styling via `@tailwindcss/vite`
 
-## Development
+## Project Structure
+
+```
+iveroh-web/
+├── index.html
+├── public/
+│   ├── fonts/           
+│   ├── photo/            
+│   └── video/            
+├── src/
+│   ├── App.tsx
+│   ├── App.css           
+│   ├── main.tsx
+│   └── components/
+│       ├── NavigationBar.tsx      
+│       ├── HeroSection.tsx        
+│       ├── CommitActivity.tsx     
+│       ├── AboutSection.tsx       
+│       ├── ProjectsSection.tsx    
+│       └── RepositoryDisplay.tsx  
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js 18** or higher
+- **npm**
+
+### Installation
 
 ```bash
 npm install
-npm run dev      # Start dev server at localhost:5173
-npm run build    # Production build
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
