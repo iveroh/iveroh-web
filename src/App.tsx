@@ -1,16 +1,18 @@
 import "./App.css";
 import HeroSection from "./components/HeroSection";
-import AboutSection from "./components/AboutSection";
-import NavigationBar from "./components/NavigationBar";
 import ProjectsSection from "./components/ProjectsSection";
+import NavigationBar from "./components/NavigationBar";
+import FantasySection from "./components/FantasySection";
+import VideosSection from "./components/VideosSection";
 
 function App() {
 	return (
 	<main>
       <NavigationBar />
       <HeroSection />
-      <AboutSection />
-	  < ProjectsSection />
+	< ProjectsSection />
+      <FantasySection />
+      <VideosSection />
 	</main>
 	);
 }

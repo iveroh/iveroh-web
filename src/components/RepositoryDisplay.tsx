@@ -8,7 +8,7 @@ const REPOS = [
   {
     name: "iveroh/ac-electric-call",
     html_url: "https://github.com/iveroh/ac-electric-call",
-    description: "Marketing business contact website",
+    description: "Airconditioning and electrical company website.",
     language: "TypeScript",
   },
   {
@@ -36,10 +36,10 @@ export default function RepositoryDisplay() {
           href={repo.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-gray-900 border-2 border-gray-600 rounded-md p-4 flex flex-col gap-2 transition-colors duration-300 hover:border-[#3094FF]"
+          className="bg-black/60 border border-gray-600 rounded-md p-4 flex flex-col gap-2 transition-colors duration-300 hover:border-brand-light"
         >
           <div className="flex justify-between items-start gap-25">
-            <span className="underline text-lg text-[#3094FF] hover:underline">{repo.name}</span>
+            <span className="text-lg text-brand-light hover:underline">{repo.name}</span>
             <span className="text-xs border border-gray-400 rounded-full px-2 py-0.5 text-gray-400">Public</span>
           </div>
           <p className="text-sm text-white min-h-10">{repo.description}</p>
