@@ -7,7 +7,7 @@ import VideosSection from "./components/VideosSection";
 
 function App() {
 	return (
-	<main>
+	<main className="isolate">
       <NavigationBar />
       <HeroSection />
 	< ProjectsSection />

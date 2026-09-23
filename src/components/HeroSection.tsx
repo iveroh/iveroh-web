@@ -17,7 +17,7 @@ export default function HeroSection() {
     <section className="sticky top-0 h-screen w-full overflow-hidden text-white flex flex-col justify-center items-center z-0">
       <video
         ref={videoRef}
-        className="absolute inset-0 -z-10 h-full w-full object-cover grayscale opacity-50"
+        className="absolute inset-0 z-0 h-full w-full object-cover grayscale opacity-50"
         src="/video/water-1.mp4"
         autoPlay
         muted
@@ -25,6 +25,7 @@ export default function HeroSection() {
         preload="auto"
         onEnded={handleVideoEnded}
       />
+      <div className="relative z-10 flex flex-col items-center">
       <h1 className="font-kudryashev-headline font-bold text-4xl mb-4 text-center">Iver Oprand Heggelund</h1>
       <div className="flex flex-col justify-center items-center">
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-8">
@@ -50,6 +51,7 @@ export default function HeroSection() {
       <div className="flex flex-col justify-center items-center mt-4">
       <h3 className="font-kudryashev-headline font-bold text-2xl text-center">Informatics Master's student.</h3>
       <h4 className="font-kudryashev-headline font-bold text-xl text-center">Specialization in interaction design, gaming, and learning technology.</h4>
+      </div>
       </div>
     </section>
   );

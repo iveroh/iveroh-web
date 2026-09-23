@@ -26,7 +26,7 @@ export default function FantasySection() {
     }, []);
 
     return (
-        <section id="fpl-team" className="relative z-10 scroll-mt-16 bg-gray-50 px-4 py-10 text-brand-dark md:scroll-mt-24 md:px-8">
+        <section id="fpl-team" className="relative z-20 scroll-mt-16 bg-gray-50 px-4 py-10 text-brand-dark md:scroll-mt-24 md:px-8">
             <div className="mx-auto w-full max-w-4xl">
                 <div className="mb-1">
                     <div className="flex justify-center">
