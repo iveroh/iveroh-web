@@ -14,7 +14,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="sticky top-0 h-screen w-full overflow-hidden text-white flex flex-col justify-center items-center z-0">
+    <section className="relative top-0 h-screen w-full overflow-hidden text-white flex flex-col justify-center items-center z-0 md:sticky">
       <video
         ref={videoRef}
         className="absolute inset-0 z-0 h-full w-full object-cover grayscale opacity-50"
