@@ -71,3 +71,13 @@ npm run build
 ```bash
 npm run preview
 ```
+
+## Fantasy Premier League Team
+
+The fantasy-team section uses a Vercel serverless function to keep FPL requests and the portfolio team ID off the client.
+
+1. Find the numeric ID in your public FPL team URL.
+2. In Vercel, add an environment variable named `FPL_ENTRY_ID` with that value for Preview and Production.
+3. Deploy the project to Vercel. The browser calls `/api/fpl-team`; Vercel calls the FPL API and caches the response for one minute.
+
+For local API development, install the Vercel CLI and run `vercel dev` after configuring `FPL_ENTRY_ID` in `.env.local`. Do not commit `.env.local`.

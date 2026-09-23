@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
+
 const NAV_ITEMS = [
     {
-        label: "ABOUT ME",
-        href: "",
+        label: "HOME",
+        href: "#",
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="8" r="4" />
@@ -11,7 +13,7 @@ const NAV_ITEMS = [
     },
     {
         label: "PROJECTS",
-        href: "",
+        href: "#projects",
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
@@ -20,7 +22,7 @@ const NAV_ITEMS = [
     },
     {
         label: "FPL TEAM",
-        href: "",
+        href: "#fpl-team",
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M7 4h10v4a5 5 0 0 1-10 0Z" />
@@ -31,7 +33,7 @@ const NAV_ITEMS = [
     },
     {
         label: "VIDEOS",
-        href: "",
+        href: "#videos",
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="6" width="13" height="12" rx="2" />
@@ -42,14 +44,35 @@ const NAV_ITEMS = [
 ];
 
 export default function NavigationDesktop() {
+    const [isOverLightSection, setIsOverLightSection] = useState(false);
+
+    useEffect(() => {
+        const updateNavigationBackground = () => {
+            const lightSections = ["projects", "fpl-team", "videos"]
+                .map((id) => document.getElementById(id))
+                .filter((section): section is HTMLElement => section !== null);
+
+            setIsOverLightSection(lightSections.some((section) => section.getBoundingClientRect().top <= 0));
+        };
+
+        updateNavigationBackground();
+        window.addEventListener("scroll", updateNavigationBackground, { passive: true });
+        window.addEventListener("resize", updateNavigationBackground);
+
+        return () => {
+            window.removeEventListener("scroll", updateNavigationBackground);
+            window.removeEventListener("resize", updateNavigationBackground);
+        };
+    }, []);
+
     return (
-        <div className="h-16 md:h-24 inset-x-6 md:inset-x-12 top-0 fixed z-50 flex flex-row justify-between items-center text-white mix-blend-difference">
+        <div className={`w-full h-16 md:h-24 top-0 fixed z-50 flex flex-row justify-center gap-20 sm:gap-40 md:gap-20 lg:gap-40 xl:gap-60 2xl:gap-70 items-center px-4 transition-colors duration-300 rounded-b-3xl ${isOverLightSection ? "bg-gray-50 text-black" : "text-white"}`}>
             {NAV_ITEMS.map(({ label, href, icon }) => (
                 <a
                     key={label}
                     href={href}
                     aria-label={label}
-                    className="font-kudryashev-headline transition-colors duration-300 hover:text-brand-accent"
+                    className={`font-kudryashev-headline font-bold transition-colors duration-300 hover:text-brand-light ${isOverLightSection ? "text-black" : "text-white"}`}
                 >
                     <span className="block md:hidden w-6 h-6">{icon}</span>
                     <span className="hidden md:block text-4xl">{label}</span>
