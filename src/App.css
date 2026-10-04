@@ -34,10 +34,12 @@ body,
 
 html {
   scroll-behavior: smooth;
+  overscroll-behavior-x: none;
 }
 
 body {
   margin: 0;
   background: #000000;
   font-family: sans-serif;
+  overscroll-behavior-x: none;
 }
