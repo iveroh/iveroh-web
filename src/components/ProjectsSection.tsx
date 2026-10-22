@@ -1,312 +1,183 @@
-import { useEffect, useRef, useState, type PointerEvent, type WheelEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Project {
   title: string;
+  type: string;
   description: string;
-  image?: string;
-  href?: string;
-  technologies?: Technology[];
-}
-
-interface Technology {
-  name: string;
+  image: string;
   href: string;
-  icon: string;
+  technologies: string[];
 }
 
-const PROJECTS: Project[] = [
-  {
-    title: "iveroh-web",
-    description: "This website.",
-    image: "/photo/projects/iveroh-web.png",
-    href: "https://github.com/iveroh/iveroh-web",
-    technologies: [
-      { name: "React", href: "https://react.dev/", icon: "https://cdn.simpleicons.org/react/61DAFB" },
-      { name: "TypeScript", href: "https://www.typescriptlang.org/", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
-      { name: "Vite", href: "https://vite.dev/", icon: "https://cdn.simpleicons.org/vite/646CFF" },
-      { name: "Tailwind CSS", href: "https://tailwindcss.com/", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
-      { name: "Expo", href: "", icon: "" }
-    ],
-  },
-  {
-    title: "rollcall-event",
-    description: "Prototype event management system for real-time participant check-in, oversight, and safe execution of corporate trips and events.",
-    image: "/photo/projects/rollcall-event.png",
-    href: "https://github.com/iveroh/rollcall-event",
-    technologies: [
-      { name: "React", href: "https://react.dev/", icon: "https://cdn.simpleicons.org/react/61DAFB" },
-      { name: "TypeScript", href: "https://www.typescriptlang.org/", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
-    ],
-  },
-  { title: "", description: "" },
-  { title: "", description: "" },
+const projects: Project[] = [
+  { title: "Rollcall Event", type: "Bachelor project", description: "Event management prototype for safe execution of corporate trips and events.", image: "/photo/projects/rollcall-event.png", href: "https://github.com/iveroh/rollcall-event", technologies: [] },
+  { title: "Pintrest", type: "Course project", description: "A social media platform for sharing and celebrating your drinking sessions with friends.", image: "/photo/projects/pintrest.png", href: "https://github.com/iveroh/pintrest", technologies: [] },
+  { title: "Animythos", type: "Hobby project", description: "Liberary of animated backgrounds for react applications", image: "/photo/projects/animythos.png", href: "https://github.com/iveroh/animythos", technologies: [] },
+  { title: "IT3212 Data Powered Software", type: "Course project", description: "Data analysis, preprocessing, image processing, and machine-learning models", image: "/photo/projects/data-powered-software.png", href: "https://github.com/iveroh/it3212-data-powered-software", technologies: [] },
+  { title: "", type: "", description: "", image: "", href: "", technologies: [] },
+  { title: "", type: "", description: "", image: "", href: "", technologies: [] },
+  { title: "", type: "", description: "", image: "", href: "", technologies: [] },
+  { title: "", type: "", description: "", image: "", href: "", technologies: [] },
 ];
 
-export default function ProjectsSection() {
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const [cardWidth, setCardWidth] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isArrowMoving, setIsArrowMoving] = useState(false);
-  const offsetRef = useRef(0);
-  const dragStartX = useRef<number | null>(null);
-  const dragStartY = useRef<number | null>(null);
-  const dragStartOffset = useRef(0);
-  const isHorizontalDrag = useRef(false);
-  const resumeTimer = useRef<number | null>(null);
-  const arrowTimer = useRef<number | null>(null);
-  const isHovered = useRef(false);
-  const slides = [...PROJECTS, ...PROJECTS, ...PROJECTS, ...PROJECTS];
+function useRevealOnce<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
-    const updateDimensions = () => {
-      const viewport = viewportRef.current;
-      if (!viewport) return;
+    const element = ref.current;
+    if (!element) return;
 
-      const nextVisibleCards = window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 5;
-      const nextCardWidth = viewport.clientWidth / nextVisibleCards;
-      setCardWidth(nextCardWidth);
-      offsetRef.current = -nextCardWidth * PROJECTS.length;
-      setOffset(offsetRef.current);
-    };
+    if (typeof IntersectionObserver === "undefined") {
+      setRevealed(true);
+      return;
+    }
 
-    updateDimensions();
-    const observer = new ResizeObserver(updateDimensions);
-    if (viewportRef.current) observer.observe(viewportRef.current);
-    window.addEventListener("resize", updateDimensions);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealed(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 },
+    );
 
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", updateDimensions);
-    };
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    let animationFrame = 0;
-    let previousTime = performance.now();
+  return [ref, revealed] as const;
+}
 
-    const animate = (time: number) => {
-      const elapsed = time - previousTime;
-      previousTime = time;
+const revealClasses = (revealed: boolean) =>
+  `transition-all duration-700 ease-out motion-reduce:transition-none ${
+    revealed ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100"
+  }`;
 
-      if (!isPaused && cardWidth > 0) {
-        offsetRef.current = wrapOffset(offsetRef.current - elapsed * 0.035);
-        setOffset(offsetRef.current);
-      }
+function ArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-5 w-5"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
+  );
+}
 
-      animationFrame = requestAnimationFrame(animate);
-    };
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const [ref, revealed] = useRevealOnce<HTMLElement>();
+  const delay = { transitionDelay: revealed ? `${(index % 4) * 90}ms` : "0ms" };
+  const isEmpty = !project.title;
 
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [cardWidth, isPaused]);
+  if (isEmpty) {
+    return (
+      <article
+        ref={ref}
+        style={delay}
+        aria-hidden="true"
+        className={`flex min-h-96 items-center justify-center rounded-2xl border-2 border-dashed border-brand-light/40 bg-white/40 ${revealClasses(revealed)}`}
+      >
+        <span className="font-kudryashev-headline text-sm font-bold uppercase tracking-[0.3em] text-brand/40">
+          Coming soon
+        </span>
+      </article>
+    );
+  }
 
-  const wrapOffset = (value: number) => {
-    const setWidth = cardWidth * PROJECTS.length;
-    if (setWidth === 0) return value;
+  const content = (
+    <>
+      <div className="relative h-48 w-full overflow-hidden bg-brand-dark">
+        {project.image ? (
+          <img
+            src={project.image}
+            alt=""
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-brand-dark to-brand-light font-kudryashev-headline text-6xl font-bold text-white/80">
+            {project.title.charAt(0)}
+          </div>
+        )}
+        <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-90" />
+        {project.type && (
+          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand-dark backdrop-blur">
+            {project.type}
+          </span>
+        )}
+        {project.href && (
+          <span className="absolute right-4 top-4 flex h-9 w-9 -translate-x-2 translate-y-2 items-center justify-center rounded-full bg-brand-accent text-black opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:transition-none">
+            <ArrowIcon />
+          </span>
+        )}
+      </div>
 
-    let nextOffset = value;
-    while (nextOffset <= -setWidth * 2) nextOffset += setWidth;
-    while (nextOffset > -setWidth) nextOffset -= setWidth;
-    return nextOffset;
-  };
+      <div className="flex flex-1 flex-col gap-3 p-6">
+        <h3 className="font-kudryashev-headline text-2xl font-bold leading-tight text-black">
+          <span className="bg-linear-to-r from-brand-light to-brand-light bg-[length:0%_2px] bg-bottom-left bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_2px] motion-reduce:transition-none">
+            {project.title}
+          </span>
+        </h3>
+        {project.description && <p className="text-sm leading-relaxed text-brand-dark/80">{project.description}</p>}
+        {project.technologies.length > 0 && (
+          <ul className="mt-auto flex flex-wrap gap-2 pt-2">
+            {project.technologies.map((technology) => (
+              <li
+                key={technology}
+                className="rounded-full bg-brand-dark/10 px-3 py-1 text-xs font-medium text-brand-dark transition-colors duration-300 group-hover:bg-brand-light/20"
+              >
+                {technology}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
+  );
 
-  const move = (direction: number) => {
-    const nextOffset = wrapOffset(offsetRef.current - direction * cardWidth);
-    setIsPaused(true);
-    setIsArrowMoving(true);
-    offsetRef.current = nextOffset;
-    setOffset(nextOffset);
-
-    if (arrowTimer.current !== null) window.clearTimeout(arrowTimer.current);
-    arrowTimer.current = window.setTimeout(() => {
-      setIsArrowMoving(false);
-      setIsPaused(false);
-    }, 550);
-  };
-
-  const pauseForInteraction = () => {
-    setIsPaused(true);
-    if (resumeTimer.current !== null) window.clearTimeout(resumeTimer.current);
-  };
-
-  const resumeAfterInteraction = () => {
-    if (resumeTimer.current !== null) window.clearTimeout(resumeTimer.current);
-
-    if (isHovered.current) return;
-
-    resumeTimer.current = window.setTimeout(() => setIsPaused(false), 800);
-  };
-
-  const handleMouseEnter = () => {
-    isHovered.current = true;
-    pauseForInteraction();
-  };
-
-  const handleMouseLeave = () => {
-    isHovered.current = false;
-    setIsPaused(false);
-  };
-
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-
-    pauseForInteraction();
-    setIsDragging(true);
-    dragStartX.current = event.clientX;
-    dragStartY.current = event.clientY;
-    isHorizontalDrag.current = false;
-    dragStartOffset.current = offsetRef.current;
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (dragStartX.current === null) return;
-
-    const distance = event.clientX - dragStartX.current;
-    const verticalDistance = event.clientY - (dragStartY.current ?? event.clientY);
-
-    if (!isHorizontalDrag.current && Math.abs(distance) < 8 && Math.abs(verticalDistance) < 8) return;
-    if (!isHorizontalDrag.current) {
-      if (Math.abs(verticalDistance) > Math.abs(distance)) return;
-      isHorizontalDrag.current = true;
-      event.currentTarget.setPointerCapture(event.pointerId);
-    }
-
-    event.preventDefault();
-    offsetRef.current = wrapOffset(dragStartOffset.current + distance);
-    setOffset(offsetRef.current);
-  };
-
-  const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
-    if (dragStartX.current === null) return;
-
-    dragStartX.current = null;
-    dragStartY.current = null;
-    isHorizontalDrag.current = false;
-    setIsDragging(false);
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-    resumeAfterInteraction();
-  };
-
-  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
-    const horizontalDistance = Math.abs(event.deltaX);
-    const verticalDistance = Math.abs(event.deltaY);
-    const isHorizontalScroll = horizontalDistance > verticalDistance || event.shiftKey;
-
-    if (!isHorizontalScroll) return;
-
-    event.preventDefault();
-    pauseForInteraction();
-    const distance = event.shiftKey && horizontalDistance === 0 ? event.deltaY : event.deltaX;
-    offsetRef.current = wrapOffset(offsetRef.current - distance);
-    setOffset(offsetRef.current);
-    resumeAfterInteraction();
-  };
+  const cardClasses = `group flex min-h-96 flex-col overflow-hidden rounded-2xl border border-brand-dark/10 bg-white shadow-sm transition-[translate,scale,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:-translate-y-2 hover:scale-[1.03] hover:border-brand-light hover:shadow-2xl hover:shadow-brand-dark/20 focus-visible:-translate-y-2 focus-visible:scale-[1.03] focus-visible:border-brand-light focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-light motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100`;
 
   return (
-    <section id="projects" className="relative flex justify-center z-20 min-h-screen w-full scroll-mt-16 rounded-t-3xl bg-gray-50 py-10 text-brand-dark md:scroll-mt-24">
-      <div className="w-full">
-        <div className="mb-8 text-center">
-          <p className="font-kudryashev-headline text-4xl font-bold text-black">MY PROJECTS</p>
-        </div>
+    <article ref={ref} style={delay} className={revealClasses(revealed)}>
+      {project.href ? (
+        <a href={project.href} target="_blank" rel="noopener noreferrer" className={`${cardClasses} h-full`}>
+          {content}
+        </a>
+      ) : (
+        <div className={`${cardClasses} h-full`}>{content}</div>
+      )}
+    </article>
+  );
+}
 
-        <div className="flex h-150 items-center gap-2 px-3 sm:gap-4 sm:px-6">
-          <button
-            type="button"
-            onClick={() => move(-1)}
-            aria-label="Previous projects"
-            className="grid size-9 shrink-0 rounded-full border border-brand-dark text-xl text-brand-dark transition-colors hover:bg-brand-dark hover:text-white"
-          >
-            ←
-          </button>
-          <div
-            ref={viewportRef}
-            className={`min-w-0 flex-1 touch-pan-y overscroll-x-contain select-none overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
-            onWheel={handleWheel}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div
-              className={`flex ${isArrowMoving ? "transition-transform duration-500 ease-out" : ""}`}
-              style={{ transform: `translate3d(${offset}px, 0, 0)` }}
-            >
-              {slides.map((project, index) => {
-                const card = (
-                  <div className="h-80 max-w-70 overflow-hidden rounded-2xl border-2 border-gray-600 bg-white shadow-sm sm:h-96">
-                    <div className="h-2/5 overflow-hidden border-b border-gray-200">
-                      {project.image && (
-                        <img
-                          src={project.image}
-                          alt={`${project.title} preview`}
-                          draggable={false}
-                          className="pointer-events-none block size-full select-none object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="flex h-2/3 flex-col justify-start p-4 pb-14 text-left">
-                      {project.href ? (
-                        <a href={project.href} target="_blank" rel="noreferrer" className="font-kudryashev-headline text-xl font-bold text-brand hover:text-brand-light">{project.title}</a>
-                      ) : (
-                        <h2 className="font-kudryashev-headline text-xl font-bold text-brand">{project.title}</h2>
-                      )}
-                      <p className="mt-2 text-sm">{project.description}</p>
-                      {project.technologies && project.technologies.length > 0 && (
-                        <div className="mt-auto flex items-center gap-2 pb-3" aria-label="Technologies used">
-                          {project.technologies.map((technology) => (
-                            <a
-                              key={technology.name}
-                              href={technology.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              aria-label={technology.name}
-                              title={technology.name}
-                              className="grid size-7 place-items-center p-1"
-                            >
-                              <img src={technology.icon} alt="" className="size-full" />
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
+export default function ProjectSection() {
+  const [headerRef, headerRevealed] = useRevealOnce<HTMLDivElement>();
 
-                return (
-                <article key={`${project.title}-${index}`} className="shrink-0 px-1.5 sm:px-2" style={{ width: `${cardWidth}px` }}>
-                  <div className="relative">
-                    {card}
-                    {project.href && (
-                      <a
-                        href={project.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className=" absolute bottom-3 left-3 rounded-full border-2 border-brand-light px-5 py-1 text-xs font-bold text-brand transition-colors hover:bg-brand-light hover:text-white"
-                      >
-                        View project
-                      </a>
-                    )}
-                  </div>
-                </article>
-                );
-              })}
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => move(1)}
-            aria-label="Next projects"
-            className="grid size-9 shrink-0 rounded-full border border-brand-dark text-xl text-brand-dark transition-colors hover:bg-brand-dark hover:text-white"
-          >
-            →
-          </button>
-        </div>
+  return (
+    <section
+      id="projects"
+      className="relative z-20 flex min-h-screen w-full flex-col items-center gap-12 bg-gray-50 px-4 pb-24 pt-28 text-brand-dark md:gap-16 md:px-8 md:pt-40"
+    >
+      <div ref={headerRef} className={`flex flex-col items-center gap-4 ${revealClasses(headerRevealed)}`}>
+        <h2 className="font-kudryashev-headline text-4xl font-bold text-black md:text-5xl">PROJECTS</h2>
+        <span
+          className={`h-1 rounded-full bg-brand-accent transition-[width] delay-300 duration-700 ease-out motion-reduce:transition-none ${
+            headerRevealed ? "w-24" : "w-0"
+          }`}
+        />
+      </div>
+      <div className="grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {projects.map((project, index) => (
+          <ProjectCard key={`${project.title}-${index}`} project={project} index={index} />
+        ))}
       </div>
     </section>
   );
