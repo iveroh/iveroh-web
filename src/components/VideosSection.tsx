@@ -2,7 +2,7 @@ const VIDEO_ID = "ujkD4SxPKOI";
 
 export default function VideoSection () {
     return (
-        <section id="videos" className="relative z-20 flex min-h-screen w-full scroll-mt-16 items-center justify-center bg-gray-50 px-4 py-20 text-brand-dark md:scroll-mt-24 md:px-8">
+        <section id="videos" className="relative z-20 flex min-h-screen w-full scroll-mt-4 items-center justify-center bg-gray-50 px-4 py-20 text-brand-dark md:scroll-mt-4 md:px-8">
             <div className="grid w-full max-w-6xl items-center gap-8 md:grid-cols-5 md:gap-12">
                 <div className="text-center md:col-span-2 md:text-left">
                     <span className="inline-block rounded-full bg-brand-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">Coming soon</span>
