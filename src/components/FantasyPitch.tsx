@@ -14,11 +14,11 @@ const ROWS: Array<{ position: FantasyPosition; top: string }> = [
 
 export default function FantasyPitch({ players }: FantasyPitchProps) {
     return (
-        <div className="relative mx-auto min-w-0 w-full max-w-2xl overflow-hidden rounded-lg border-2 border-brand-light shadow-lg sm:border-4">
+        <div className="relative mx-auto aspect-[5/6] min-w-0 w-full max-w-2xl overflow-hidden rounded-lg border-2 border-brand-light shadow-lg sm:aspect-[845/587] sm:border-4">
             <img
                 src="/photo/football-pitch.jpg"
                 alt="Fantasy football pitch"
-                className="relative block h-auto w-full"
+                className="absolute inset-0 block h-full w-full object-cover"
             />
             {ROWS.map(({ position, top }) => {
                 const rowPlayers = players.filter((player) => player.position === position);
