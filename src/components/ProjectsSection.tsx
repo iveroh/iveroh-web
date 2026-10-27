@@ -12,10 +12,10 @@ interface Project {
 const projects: Project[] = [
   { title: "Rollcall Event", type: "Bachelor project", description: "Event management prototype for safe execution of corporate trips and events.", image: "/photo/projects/rollcall-event.png", href: "https://github.com/iveroh/rollcall-event", technologies: [] },
   { title: "Pintrest", type: "Course project", description: "A social media platform for sharing and celebrating your drinking sessions with friends.", image: "/photo/projects/pintrest.png", href: "https://github.com/iveroh/pintrest", technologies: [] },
+  { title: "Iveroh-web", type: "Hobby project", description: "The website you are currently looking at. Display of my projects, interests and experience.", image: "/photo/projects/iveroh-web.png", href: "https://iverheggelund.no", technologies: [] },
   { title: "Animythos", type: "Hobby project", description: "Liberary of animated backgrounds for react applications", image: "/photo/projects/animythos.png", href: "https://github.com/iveroh/animythos", technologies: [] },
   { title: "IT3212 Data Powered Software", type: "Course project", description: "Data analysis, preprocessing, image processing, and machine-learning models", image: "/photo/projects/data-powered-software.png", href: "https://github.com/iveroh/it3212-data-powered-software", technologies: [] },
-  { title: "", type: "", description: "", image: "", href: "", technologies: [] },
-  { title: "", type: "", description: "", image: "", href: "", technologies: [] },
+  { title: "TPD4168 Game Design", type: "Course project", description: "Currently under construction. Game created in Blender and Unity 3D", image: "", href: "https://github.com/iveroh/TPD4168-Game-Design", technologies: [] },
   { title: "", type: "", description: "", image: "", href: "", technologies: [] },
   { title: "", type: "", description: "", image: "", href: "", technologies: [] },
 ];
@@ -164,7 +164,7 @@ export default function ProjectSection() {
   return (
     <section
       id="projects"
-      className="relative z-20 flex min-h-screen w-full flex-col items-center gap-12 bg-gray-50 px-4 pb-24 pt-28 text-brand-dark md:gap-16 md:px-8 md:pt-40"
+      className="relative z-20 flex min-h-screen w-full flex-col items-center gap-12 bg-gray-50 px-4 pb-24 pt-28 text-brand-dark md:gap-16 md:px-8 md:pt-30"
     >
       <div ref={headerRef} className={`flex flex-col items-center gap-4 ${revealClasses(headerRevealed)}`}>
         <h2 className="font-kudryashev-headline text-4xl font-bold text-black md:text-5xl">PROJECTS</h2>

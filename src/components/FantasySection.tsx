@@ -73,9 +73,7 @@ export default function FantasySection() {
                         <header className="mb-3 text-center">
                             <p className="text-xs font-semibold uppercase tracking-widest text-brand-light">Fantasy Premier League</p>
                             <h2 className="font-kudryashev-headline text-3xl font-bold uppercase leading-tight">{team.teamName}</h2>
-                            <p className="text-xs text-gray-500">Managed by {team.managerName}</p>
                         </header>
-
                         <div className="mb-3 flex items-center justify-between gap-2">
                             <button type="button" onClick={() => goToGameweek(team.gameweek - 1)} disabled={team.gameweek <= 1} aria-label="Previous gameweek" className={navButtonClass}>
                                 ‹ Prev
