@@ -6,9 +6,9 @@ const REPOS = [
     language: "TypeScript",
   },
   {
-    name: "iveroh/ac-electric-call",
-    html_url: "https://github.com/iveroh/ac-electric-call",
-    description: "Airconditioning and electrical company website.",
+    name: "iveroh/pintrest",
+    html_url: "https://github.com/iveroh/pintrest",
+    description: "Social media application for beer.",
     language: "TypeScript",
   },
   {
