@@ -1,6 +1,6 @@
 # iveroh-web
 
-Personal portfolio website for Iver Oprand Heggelund, built with React, TypeScript, and Vite.
+My personal portfolio website for Iver Oprand Heggelund, built with React, TypeScript, and Vite.
 
 ## Overview
 
